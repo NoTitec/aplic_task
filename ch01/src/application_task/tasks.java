@@ -21,6 +21,16 @@ public class tasks {
 		case 3:
 			m1.Alphabet();
 			break;
+		case 4:
+			m1.ObesityLevel();
+			break;
+		case 5:
+			m1.Time();
+			break;
+		case 6:
+			m1.Circle();
+			break;
+
 		}
 		sc.close();
 
@@ -72,6 +82,60 @@ class menus {
 		num = sc.nextInt();
 
 		System.out.println("알파벳 출력 = " + (char) (97 + num));
+		sc.close();
+	}
+
+	public void ObesityLevel() {
+		double weight = 0;
+		double height = 0;
+		double BMI = 0;
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("몸무게 입력(Kg) : ");
+		weight = sc.nextDouble();
+
+		System.out.print("키 입력(cm) : ");
+		height = sc.nextDouble();
+
+		BMI = (height - 110) / weight;
+
+		System.out.print("몸무게: " + weight + "Kg, " + "키: " + height + "cm --> 비만도: ");
+		System.out.printf("%.3f", BMI);
+		sc.close();
+	}
+
+	public void Time() {
+		int time, minute, second;
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("시간 입력(초) : ");
+		second = sc.nextInt();
+
+		minute = second / 60;
+		second = second % 60;
+		time = minute / 60;
+		minute = minute % 60;
+
+		System.out.println("입력된 시간: " + time + "시 " + minute + "분" + second + "초");
+		sc.close();
+	}
+
+	public void Circle() {
+		final double PI = 3.14;
+		int radius;
+		double area, perimeter;
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("원의 반지름 입력 : ");
+		radius = sc.nextInt();
+
+		area = PI * radius * radius;
+		perimeter = 2 * PI * radius;
+
+		System.out.println("면적: " + area + " 둘레: " + perimeter);
 		sc.close();
 	}
 }
