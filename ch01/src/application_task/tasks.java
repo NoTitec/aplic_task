@@ -1,13 +1,14 @@
 package application_task;
 
 import java.util.Scanner;
+import java.io.*;
 
 public class tasks {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
-		System.out.println("메뉴번호입력");
+		System.out.println("문제번호입력");
 		menus m1 = new menus();
 		int cc = sc.nextInt();
 		switch (cc) {
@@ -30,10 +31,17 @@ public class tasks {
 		case 6:
 			m1.Circle();
 			break;
-
+		case 7:
+			m1.PrintString();
+			break;
+		case 8:
+			m1.Twonumbercomparison();
+			break;
+		case 9:
+			m1.EvenOddChecker();
 		}
+		
 		sc.close();
-
 	}
 
 }
@@ -136,6 +144,56 @@ class menus {
 		perimeter = 2 * PI * radius;
 
 		System.out.println("면적: " + area + " 둘레: " + perimeter);
+		sc.close();
+	}
+
+	public void PrintString() {
+		try {
+			String str1, str2;
+			Scanner sc = new Scanner(System.in);
+			System.out.print("문자열 입력: ");
+			str1 = sc.nextLine();
+
+			Scanner sc2 = new Scanner(new File("C:\\Users\\zkxkr\\iCloudDrive\\금오공대3-1\\프로그래밍응용\\과제\\sample.txt"));
+			str2 = sc2.useDelimiter("\\\n").next();
+			System.out.println(str1 + str2);
+			sc2.close();
+			sc.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void Twonumbercomparison() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input number 1 ? ");
+		int num1 = sc.nextInt();
+
+		System.out.print("Input number 2 ? ");
+		int num2 = sc.nextInt();
+
+		if (num1 > num2) {
+			System.out.println(num1 + " is bigger than " + num2);
+		} else if (num1 < num2) {
+			System.out.println(num1 + " is less than " + num2);
+		} else {
+			System.out.println(num1 + " is equal to " + num2);
+		}
+		sc.close();
+	}
+
+	public void EvenOddChecker() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input number? ");
+		int num = sc.nextInt();
+
+		if ((num& 0x1) == 0) {
+			System.out.println(num + " is Even number");
+		} else {
+			System.out.println(num + " is Odd number");
+		}
 		sc.close();
 	}
 }
