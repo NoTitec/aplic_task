@@ -39,8 +39,18 @@ public class tasks {
 			break;
 		case 9:
 			m1.EvenOddChecker();
+			break;
+		case 10:
+			m1.EOandPNChecker();
+			break;
+		case 11:
+			m1.EquationCalculator();
+			break;
+		case 12:
+			m1.VowelChecker();
+			break;
 		}
-		
+
 		sc.close();
 	}
 
@@ -189,10 +199,74 @@ class menus {
 		System.out.print("Input number? ");
 		int num = sc.nextInt();
 
-		if ((num& 0x1) == 0) {
+		if ((num & 0x1) == 0) {
 			System.out.println(num + " is Even number");
 		} else {
 			System.out.println(num + " is Odd number");
+		}
+		sc.close();
+	}
+
+	public void EOandPNChecker() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input number? ");
+		int num = sc.nextInt();
+
+		if (num % 2 == 0) {
+			if (num >= 0) {
+				System.out.println(num + " is Even and Positive number");
+			} else {
+				System.out.println(num + " is Even and Negative number");
+			}
+		} else {
+			if (num >= 0) {
+				System.out.println(num + " is Odd and Positive number");
+			} else {
+				System.out.println(num + " is Odd and Negative number");
+			}
+		}
+		sc.close();
+	}
+
+	public void EquationCalculator() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input equation? ");
+		int num1 = sc.nextInt();
+		sc.nextLine();
+		char op = sc.nextLine().charAt(0);
+		int num2 = sc.nextInt();
+
+		int result;
+
+		if (op == '+') {
+			result = num1 + num2;
+			System.out.println(num1 + "+" + num2 + "=" + result);
+		} else if (op == '-') {
+			result = num1 - num2;
+			System.out.println(num1 + "-" + num2 + "=" + result);
+		} else if (op == '*') {
+			result = num1 * num2;
+			System.out.println(num1 + "*" + num2 + "=" + result);
+		} else if (op == '/') {
+			result = num1 / num2;
+			System.out.println(num1 + "/" + num2 + "=" + result);
+		}
+		sc.close();
+	}
+
+	public void VowelChecker() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input character? ");
+		char ch = sc.nextLine().charAt(0);
+
+		if (ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U' || ch == 'a' || ch == 'e' || ch == 'i'
+				|| ch == 'o' || ch == 'u') {
+			System.out.println(ch + " is Vowel");
+		} else {
+			System.out.println(ch + " is Consonant");
 		}
 		sc.close();
 	}
