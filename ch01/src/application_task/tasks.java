@@ -49,6 +49,25 @@ public class tasks {
 		case 12:
 			m1.VowelChecker();
 			break;
+		case 13:
+			m1.UpperLowerChecker();
+			break;
+		case 14:
+			Gradecheckp g2 = new Gradecheckp();
+			System.out.println("1.if\n 2.switch");
+			int gc = sc.nextInt();
+			if (gc == 1) {
+				g2.if_GradeCaculator();
+			} else if (gc == 2) {
+				g2.switch_GradeCaculator();
+			} else {
+				System.out.println("you input wrong number");
+				System.exit(0);
+			}
+			break;
+		case 15:
+			m1.shapeSizeCalculator();
+			break;
 		}
 
 		sc.close();
@@ -267,6 +286,105 @@ class menus {
 			System.out.println(ch + " is Vowel");
 		} else {
 			System.out.println(ch + " is Consonant");
+		}
+		sc.close();
+	}
+
+	public void UpperLowerChecker() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input character? ");
+		char ch = sc.next().charAt(0);
+
+		if (ch >= 'a' && ch <= 'z') {
+			System.out.println(ch + "는 소문자");
+			char ch1 = (char) (0x41 + (ch - 0x61));
+			System.out.println(ch + "의 대문자는 " + ch1);
+		} else if (ch >= 'A' && ch <= 'Z') {
+			System.out.println(ch + "는 대문자");
+			char ch1 = (char) (0x61 + (ch - 0x41));
+			System.out.println(ch + "의 소문자는 " + ch1);
+		} else {
+			System.out.println(ch + "는 문자가 아님");
+		}
+		sc.close();
+	}
+
+	public void shapeSizeCalculator() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("도형 선택 (R: 사각형, T: 삼각형, C: 원)? ");
+		System.out.println("입력은 R,T,C중에 고른다");
+		char shape = sc.next().charAt(0);
+
+		if (shape == 'R') {
+			System.out.print("너비 및 높이 입력? ");
+			int wth = sc.nextInt();
+			int hit = sc.nextInt();
+			double size = wth * hit;
+			System.out.println("사각형 크기 = " + size);
+		} else if (shape == 'T') {
+			System.out.print("너비 및 높이 입력? ");
+			int wth = sc.nextInt();
+			int hit = sc.nextInt();
+			double size = wth * hit / 2.0;
+			System.out.println("삼각형 크기 = " + size);
+		} else if (shape == 'C') {
+			System.out.print("반지름 입력? ");
+			int radius = sc.nextInt();
+			double size = 3.14 * radius * radius;
+			System.out.println("원 크기 = " + size);
+		}
+		sc.close();
+	}
+}
+
+class Gradecheckp {
+	public void if_GradeCaculator() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input score? ");
+		int num = sc.nextInt();
+
+		if (num >= 90) {
+			System.out.println("Grade = A");
+		} else if (num >= 80) {
+			System.out.println("Grade = B");
+		} else if (num >= 70) {
+			System.out.println("Grade = C");
+		} else if (num >= 60) {
+			System.out.println("Grade = D");
+		} else {
+			System.out.println("Grade = F");
+		}
+		sc.close();
+	}
+
+	public void switch_GradeCaculator() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input score? ");
+		int num = sc.nextInt();
+
+		num = num / 10;
+
+		switch (num) {
+		case 10:
+		case 9:
+			System.out.println("Grade = A");
+			break;
+		case 8:
+			System.out.println("Grade = B");
+			break;
+		case 7:
+			System.out.println("Grade = C");
+			break;
+		case 6:
+			System.out.println("Grade = D");
+			break;
+		default:
+			System.out.println("Grade = F");
+			break;
 		}
 		sc.close();
 	}
