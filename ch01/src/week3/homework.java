@@ -63,6 +63,9 @@ public class homework {
 		case 15:
 			me.num5_15();
 			break;
+		case 16:
+			me.num5_16();
+			break;
 		default:
 			System.exit(cf);
 		}
@@ -367,12 +370,35 @@ class part3 {
 	}
 
 	public void num5_15() {
-		for(int i = 1; i < 10; i++) {
-			for(int j = 2; j < 10; j++) {
+		for (int i = 1; i < 10; i++) {
+			for (int j = 2; j < 10; j++) {
 				System.out.print(j + " * " + i + " = ");
-				System.out.printf("%2s ", Integer.toString(i*j));
+				System.out.printf("%2s ", Integer.toString(i * j));
 			}
 			System.out.println();
+		}
 	}
-}
+
+	public void num5_16() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input number? ");
+		int num = sc.nextInt();
+
+		int result = 1;
+
+		System.out.print(num + "! = ");
+
+		for (int i = num; i >= 1; i--) {
+			result *= i;
+
+			if (i > 1)
+				System.out.print(i + " * ");
+			else
+				System.out.print(i + " = ");
+		}
+
+		System.out.println(result);
+		sc.close();
+	}
 }
