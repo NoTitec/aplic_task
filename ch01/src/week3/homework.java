@@ -45,6 +45,27 @@ public class homework {
 			break;
 		case 9:
 			me.num5_9();
+		case 10:
+			me.num5_10();
+			break;
+		case 11:
+			me.num5_11();
+			break;
+		case 12:
+			me.num5_12();
+			break;
+		case 13:
+			me.num5_13();
+			break;
+		case 14:
+			me.num5_14();
+			break;
+		case 15:
+			me.num5_15();
+			break;
+		case 16:
+			me.num5_16();
+			break;
 		default:
 			System.exit(cf);
 		}
@@ -232,6 +253,152 @@ class part3 {
 			}
 			System.out.printf("\n");
 		}
+		sc.close();
+	}
+
+	public void num5_10() {
+		char ch = 'a';
+
+		for (int i = 0; i < 'z' - 'a' + 1; i++)
+			System.out.print((char) (ch + i));
+	}
+
+	public void num5_11() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input number 1 ? ");
+		int num1 = sc.nextInt();
+
+		System.out.print("Input number 2 ? ");
+		int num2 = sc.nextInt();
+
+		if (num2 <= num1) {
+			swap(num2, num1);
+		}
+
+		int sum = 0;
+
+		System.out.print("Odd Number : ");
+
+		for (int i = num1; i <= num2; i++) {
+			if (i % 2 == 1) {
+				System.out.print(i + " ");
+				sum += i;
+			}
+		}
+
+		System.out.println();
+		System.out.println("Odd Sum from min odd to max odd : " + sum);
+		sc.close();
+	}
+
+	public void num5_12() {
+		Scanner sc = new Scanner(System.in);
+
+		while (true) {
+			System.out.print("Input Shape Size : ");
+			int num = sc.nextInt();
+
+			if (num == -1)
+				break;
+
+			for (int i = 1; i <= num; i++) {
+				for (int j = 1; j <= num; j++) {
+					if (i == 1 || i == num)
+						System.out.print("*");
+					else {
+						if (j == 1 || j == num)
+							System.out.print("*");
+						else
+							System.out.print(" ");
+					}
+				}
+				System.out.println();
+			}
+		}
+		sc.close();
+	}
+
+	public void num5_13() {
+		Scanner sc = new Scanner(System.in);
+
+		int num = 0;
+
+		do {
+			System.out.print("Input number ? ");
+			num = sc.nextInt();
+		} while (num % 2 == 0);
+
+		for (int i = num / 2; i >= 0; i--) {// 위쪽 그림
+			for (int k = 0; k < i; k++)
+				System.out.print(" ");
+			for (int j = 0; j < num - (i * 2); j++)
+				System.out.print("*");
+			System.out.println();
+		}
+		for (int i = 1; i <= num / 2; i++) {// 아래쪽 그림
+			for (int k = 0; k < i; k++)
+				System.out.print(" ");
+			for (int j = 0; j < num - (i * 2); j++)
+				System.out.print("*");
+			System.out.println();
+		}
+
+		sc.close();
+	}
+
+	public void num5_14() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input number 1 ? ");
+		int num1 = sc.nextInt();
+
+		System.out.print("Input number 2 ? ");
+		int num2 = sc.nextInt();
+
+		for (int i = num1; i <= num2; i++) {
+
+			if (i % 3 == 0) {
+				System.out.println(i);
+				continue;
+			}
+			if (i % 5 == 0)
+				System.out.println(i);
+
+		}
+		sc.close();
+	}
+
+	public void num5_15() {
+		for (int i = 1; i < 10; i++) {
+			for (int j = 2; j < 10; j++) {
+				System.out.print(j + " * " + i + " = ");
+				System.out.printf("%2s ", Integer.toString(i * j));
+			}
+			System.out.println();
+		}
+	}
+
+	public void num5_16() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Input number? ");
+		int num = sc.nextInt();
+
+		int result = 1;
+
+		System.out.print(num + "! = ");
+
+		for (int i = num; i >= 1; i--) {
+			result *= i;
+
+			if (i > 1)
+				System.out.print(i + " * ");
+			else
+				System.out.print(i + " = ");
+		}
+
+		System.out.println(result);
 		sc.close();
 	}
 }
