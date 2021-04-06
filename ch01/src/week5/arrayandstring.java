@@ -1,6 +1,7 @@
 package week5;
 
 import java.util.*;
+import java.text.*;
 
 public class arrayandstring {
 
@@ -65,6 +66,13 @@ public class arrayandstring {
 		case 18:
 			f.remove0();
 			break;
+		case 19:
+			f.removeback0();
+			break;
+		case 20:
+			f.grade_manage();
+		case 21:
+			f.barcodegen();
 		}
 		sc.close();
 	}
@@ -462,15 +470,118 @@ class methods {
 	public String removeFrontZ(String str) {
 		// Count preceding zeros
 		int i = 0;
-		while (str.charAt(i) == '0')//0아닐때까지 반복
+		while (str.charAt(i) == '0')// 0아닐때까지 반복
 			i++;
 		// Convert str into StringBuffer as Strings
 		// are immutable.
-		StringBuffer sb = new StringBuffer(str);//String 버퍼생성
+		StringBuffer sb = new StringBuffer(str);// String 버퍼생성
 
 		// The StringBuffer replace function removes
 		// i characters from given index (0 here)
-		sb.replace(0, i, "");//버퍼스트링의 0번째위치부터 i위치까지 삭제
+		sb.replace(0, i, "");// 버퍼스트링의 0번째위치부터 i위치까지 삭제
 		return sb.toString(); // return in String
 	}
+
+	public void removeback0() {
+		String str = "0012340000";
+		System.out.println("String    = " + str);
+		str = removeTrailZ(str);
+		System.out.println("Converted = " + str);
+	}
+
+	public String removeTrailZ(String str) {
+		int i = 0;
+		while (str.charAt(i) == '0')// 0아닐때까지 반복
+			i++;
+		while (str.charAt(i) != '0')
+			i++;
+		// Convert str into StringBuffer as Strings
+		// are immutable.
+		StringBuffer sb = new StringBuffer(str);// String 버퍼생성
+
+		// The StringBuffer replace function removes
+		// i characters from given index (0 here)
+		sb.replace(i, sb.length(), "");// 버퍼스트링의 0번째위치부터 i위치까지 삭제
+		return sb.toString(); // return in String
+	}
+
+	public void grade_manage() {
+		DecimalFormat df2 = new DecimalFormat(".##");
+
+		Stud st[] = new Stud[4];
+		st[0] = new Stud("Betty", 65.0, 98.0, 80.0);
+		st[1] = new Stud("John", 98.0, 89.0, 72.0);
+		st[2] = new Stud("Billy", 78.0, 76.0, 92.0);
+		st[3] = new Stud("Helen", 98.0, 77.0, 91.0);
+		for (int i = 0; i < 4; i++)
+			System.out.println(st[i].getName() + " " + df2.format(st[i].getAverage()));
+	}
+	
+	public void barcodegen() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Input 5 digits number > ");
+		String num = sc.nextLine();
+		barcodeGen(num);
+		sc.close();
+	}
+	public void barcodeGen(String str) {
+		String[] pattern = new String[] { "11000", // 0
+				"00011", "00101", "00110", // 3
+				"01001", "01010", "01100", "10001", "10010", "10100" }; // 9
+
+		String[] conPattern = new String[10];
+		for (int i = 0; i < 10; i++) { // convert to image-like code
+			// eg. "11000" -> "||bbb" b=blank
+			String cs = pattern[i];
+			cs = cs.replaceAll("0", " ");//01패턴을 공백과 |로 교체
+			cs = cs.replaceAll("1", "|");
+			conPattern[i] = cs;//교체완료된 새로운 string배열 생성
+		}
+		// generate check code
+		char ccode[];
+		ccode = str.toCharArray();
+		int sum = 0;
+		for (int i = 0; i < ccode.length; i++) {
+			sum += ccode[i] - '0'; // convert char to number
+		}
+		int checkDigit = sum % 10;
+		for (int r = 0; r < 2; r++) { // repeat twice
+			for (int i = 0; i < 5; i++) { // 5 numbers
+				int curr = str.charAt(i) - '0';
+				System.out.print(conPattern[curr]);
+			}
+			System.out.print(conPattern[checkDigit]);// check digit
+			System.out.println();
+		}
+		for (int r = 0; r < 2; r++) { // repeat twice(all |)
+			for (int i = 0; i < 6; i++) { // 5 + 1 number
+				System.out.print("|||||");
+			}
+			System.out.println();
+		}
+	}
+}
+
+class Stud {
+	String name;
+	double languge;
+	double mat;
+	double english;
+
+	public Stud(String string, double d, double e, double f) {
+		// TODO Auto-generated constructor stub
+		this.name = string;
+		this.languge = d;
+		this.mat = e;
+		this.english = f;
+	}
+
+	double getAverage() {
+		return (languge + mat + english) / 3;
+	}
+
+	String getName() {
+		return name;
+	}
+
 }
