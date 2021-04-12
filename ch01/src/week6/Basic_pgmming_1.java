@@ -59,6 +59,17 @@ public class Basic_pgmming_1 {
 			int s=sc.nextInt();
 			int h=sc.nextInt();
 			f.printSquare(s, h);
+			break;
+		case 29:
+			f.repeatTest("Java",3);
+			break;
+		case 31:
+			int fuc;
+			fuc=sc.nextInt();
+			f.showTwos(fuc);
+			break;
+		case 33:
+			f.diceSum();
 		}
 		sc.close();
 	}
@@ -244,5 +255,37 @@ class methods6 {
 		        }
 		        System.out.println();
 		    }
+	}
+	
+	public void repeatTest(String s,int a) {
+		for(int i=0;i<a;i++) {
+			System.out.print(s);
+		}
+	}
+	public void showTwos(int number) {
+		int count2=0;
+		int temp=number;
+		
+		while(temp%2==0) {
+			count2++;
+			temp=temp/2;
+		}
+		System.out.print(number+"=");
+		for(int i=0;i<count2;i++) {
+			System.out.print("2*");
+		}
+		System.out.println(temp);
+	}
+	public void diceSum() {
+		System.out.println("Desired dice sum: 9");
+		int sum=0;
+		int a;
+		int b;
+		while(sum!=9) {
+			a=sc.nextInt();
+			b=sc.nextInt();
+			sum=a+b;
+			System.out.println(a+"and"+b+"="+sum);
+		}
 	}
 }
