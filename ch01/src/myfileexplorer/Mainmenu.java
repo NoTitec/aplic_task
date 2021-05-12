@@ -1,5 +1,7 @@
 package myfileexplorer;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.nio.*;
 import java.nio.file.Path;
@@ -17,6 +19,12 @@ import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
 public class Mainmenu {
 
 	public static void main(String[] args) {
@@ -25,7 +33,7 @@ public class Mainmenu {
 		Scanner sc = new Scanner(System.in);
 		while (true) {
 			System.out.println("파일 메뉴");
-			System.out.println("1. 파일복사 2. 파일/디렉토리 삭제 3.파일 내용 디스플레이 4.디렉토리 리스팅 5.파일or디렉토리 압축 6.종료");
+			System.out.println("1. 파일복사 2. 파일/디렉토리 삭제 3.파일 내용 디스플레이 4.디렉토리 리스팅 5.파일or디렉토리 압축 6.파일 자바 swing 선택 삭제 7.종료");
 			m = sc.nextInt();
 
 			switch (m) {
@@ -127,8 +135,13 @@ public class Mainmenu {
 					}
 				}
 				break;
+
+			case 6:
+				System.out.println("input file or dir path");
+				String sadd = sc.next();
+				new DeleteFile(sadd);
 			}
-			if (m == 6) {
+			if (m == 7) {
 				break;
 			}
 		}
@@ -445,22 +458,89 @@ public class Mainmenu {
 		for (File f : filesls) {
 			if (f.isDirectory() != true) {
 				FileInputStream in = new FileInputStream(f);
-		       
-		        String fileName = f.getName().toString();
-		                
-		        ZipEntry ze = new ZipEntry(fileName);
-		        out.putNextEntry(ze);
-		          
-		        int len;
-		        while ((len = in.read(buf)) > 0) {
-		            out.write(buf, 0, len);
-		        }
-		          
-		        out.closeEntry();
-		        in.close();
+
+				String fileName = f.getName().toString();
+
+				ZipEntry ze = new ZipEntry(fileName);
+				out.putNextEntry(ze);
+
+				int len;
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+
+				out.closeEntry();
+				in.close();
 			}
 		}
 		out.close();
 	}
 
+}
+
+class DeleteFile extends JFrame implements ActionListener {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	JFileChooser fc;
+	JButton b, btndel;
+	JLabel l;
+	JTextField tf;
+
+	DeleteFile(String sadd) {
+		super("Delete Directory");
+		fc = new JFileChooser(sadd);
+		l = new JLabel("dname");
+		l.setBounds(25, 22, 35, 35);
+		add(l);
+		tf = new JTextField();
+		tf.setBounds(100, 25, 120, 25);
+		add(tf);
+		b = new JButton("Browse");
+		b.setBounds(250, 25, 80, 25);
+		add(b);
+		b.addActionListener(this);
+		btndel = new JButton("Delete");
+		btndel.setBounds(250, 100, 80, 25);
+		add(btndel);
+		btndel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btndel) {
+					String text = tf.getText();
+					System.out.println(text);
+					File del = new File(sadd + "\\" + text);
+					delete(del);
+				}
+			}
+		});
+		setLayout(null);
+		setSize(400, 200);
+		setVisible(true);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == b) {
+			int x = fc.showOpenDialog(null);
+			if (x == JFileChooser.APPROVE_OPTION) {
+				File f1 = fc.getSelectedFile();
+				String s1 = fc.getName(f1);
+				tf.setText(s1);
+				File f2 = fc.getCurrentDirectory();
+				String s2 = fc.getName(f2);
+			}
+		}
+	}
+
+	public void delete(File file) {
+		if (file.isFile()) {
+
+			file.delete();
+			System.out.println("yes");
+		} else {
+			
+			System.out.println("not a file");
+		}
+	}
 }
