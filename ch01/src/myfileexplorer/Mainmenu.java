@@ -3,20 +3,12 @@ package myfileexplorer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.nio.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import javax.swing.JButton;
@@ -33,7 +25,8 @@ public class Mainmenu {
 		Scanner sc = new Scanner(System.in);
 		while (true) {
 			System.out.println("파일 메뉴");
-			System.out.println("1. 파일복사 2. 파일/디렉토리 삭제 3.파일 내용 디스플레이 4.디렉토리 리스팅 5.파일or디렉토리 압축 6.파일 자바 swing 선택 삭제 7.종료");
+			System.out.println(
+					"1. 파일복사 2. 파일/디렉토리 삭제 3.파일 내용 디스플레이 4.디렉토리 리스팅 5.파일or디렉토리 압축 6. 파일or디렉토리 압축해제 7.파일 자바 swing 선택 삭제 8. 디렉토리 자바 swing 선택 리스팅 9.종료");
 			m = sc.nextInt();
 
 			switch (m) {
@@ -137,14 +130,42 @@ public class Mainmenu {
 				break;
 
 			case 6:
+				System.out.println("input file or dir address");
+				String cda = sc.next();
+				System.out.println("input destination file");
+				String dda = sc.next();
+
+				try {
+					System.out.println("exedezip");
+					try {
+						decompress(cda, dda);
+					} catch (Throwable e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				break;
+			case 7:
 				System.out.println("input file or dir path");
 				String sadd = sc.next();
 				new DeleteFile(sadd);
+				break;
+			case 8:
+				System.out.println("input file or dir path");
+				String sadd2 = sc.next();
+				new FileChooserPrint(sadd2);
+				break;
 			}
-			if (m == 7) {
+
+			if (m == 8) {
 				break;
 			}
 		}
+		sc.close();
 	}
 
 	public static void Fcopy() throws IOException {
@@ -197,6 +218,7 @@ public class Mainmenu {
 			close(fw);
 			// fw.close();
 		}
+		s.close();
 	}
 
 	public static void close(Closeable stream) {
@@ -247,7 +269,10 @@ public class Mainmenu {
 				sLine = inFile.readLine();
 				System.out.println(sLine);
 			}
+			inFile.close();
 		}
+		sc.close();
+		
 	}
 
 	public static void printByRandomAcessFile() throws IOException {
@@ -277,6 +302,8 @@ public class Mainmenu {
 			}
 
 		}
+		sc.close();
+		randomAccessFile.close();
 	}
 
 	public static void plwc() throws IOException {
@@ -313,7 +340,7 @@ public class Mainmenu {
 		System.out.println("Total word count = " + countWord);
 		System.out.println("Total number of sentences = " + sentenceCount);
 		System.out.println("Total number of characters = " + characterCount);
-
+		reader.close();
 	}
 
 	public static void pfdlist(String fadd) {
@@ -476,6 +503,60 @@ public class Mainmenu {
 		out.close();
 	}
 
+	public static void decompress(String zipfile, String todir) throws Throwable {
+		File zipFile = new File(zipfile);
+		FileInputStream fis = null;
+		ZipInputStream zis = null;
+		ZipEntry zipentry = null;// zip항목을 나타내는 객체
+		try {
+			// 파일 스트림
+			fis = new FileInputStream(zipFile);
+			// Zip 파일 스트림
+			zis = new ZipInputStream(fis);
+			// entry가 없을때까지 뽑기
+			while ((zipentry = zis.getNextEntry()) != null) {// 위치에 zip항목이 없을때까지 읽는다
+				String zefilename = zipentry.getName();// zipentry1개의 이름
+				File ze1file = new File(todir, zefilename);// 부모 위치에 todir이름으로 폴더만들고 가져온 zipentry객체 이름으로 파일객체 생성
+				// zipentiry가 폴더면 폴더 생성
+				if (zipentry.isDirectory()) {
+					ze1file.mkdirs();
+				} else {
+					// zip 파일이면 파일 만들기
+					createFile(ze1file, zis);
+				}
+			}
+		} catch (Throwable e) {
+			throw e;
+		} finally {
+			if (zis != null)
+				zis.close();
+			if (fis != null)
+				fis.close();
+		}
+
+	}
+
+	private static void createFile(File file, ZipInputStream zis) throws Throwable {
+		// 상위 디렉토리 있는지 확인
+		File parentDir = new File(file.getParent());
+		// 디렉토리가 없으면 생성하자
+		if (!parentDir.exists()) {
+			parentDir.mkdirs();
+		}
+		// 파일 스트림 선언
+		try (FileOutputStream fos = new FileOutputStream(file)) {// file위치파일이름으로 파일생성
+			byte[] buffer = new byte[256];
+			int size = 0;
+			// Zip스트림으로부터 byte뽑아내기
+			while ((size = zis.read(buffer)) > 0) {// zipinputstream끝이 아니면 반복
+				// byte로 파일 만들기
+				fos.write(buffer, 0, size);
+			}
+		} catch (Throwable e) {
+			throw e;
+		}
+	}
+
 }
 
 class DeleteFile extends JFrame implements ActionListener {
@@ -539,8 +620,22 @@ class DeleteFile extends JFrame implements ActionListener {
 			file.delete();
 			System.out.println("yes");
 		} else {
-			
+
 			System.out.println("not a file");
 		}
 	}
+}
+
+class FileChooserPrint {
+
+	FileChooserPrint(String sadd) {
+		JFileChooser fc = new JFileChooser(sadd);
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fc.showDialog(null, "listfile"); // for listing a file
+		File file = fc.getSelectedFile();
+		String self = file.getPath();
+		Mainmenu.pfdlist(self);
+
+	}
+
 }
